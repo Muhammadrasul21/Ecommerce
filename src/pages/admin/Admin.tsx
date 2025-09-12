@@ -16,8 +16,8 @@ const Admin = () => {
       >
         <div
           className={`flex ${
-            sidebarOpen ? "flex-row" : "flex-col gap-8"
-          } items-center justify-between flex gap-10 mb-4`}
+            sidebarOpen ? "flex-row" : "flex-col"
+          } items-center justify-between mb-4`}
         >
           <p
             className={`text-2xl font-bold transition-all ${
@@ -36,19 +36,17 @@ const Admin = () => {
         </div>
 
         <nav className="mt-8">
-          <ul className="space-y-4 flex flex-col gap-1">
+          <ul className="space-y-2">
             {navItems.map(({ path, label, icon }) => {
-              const isActive =
-                location.pathname === path ||
-                location.pathname === `/admin${path}`;
+              const isActive = location.pathname === path;
               return (
                 <li key={path}>
                   <Link
                     to={path}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300
-      ${sidebarOpen ? "w-[200px] justify-start" : "w-[45px] justify-center"}
-      ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-100 text-gray-700"}
-    `}
+                      ${sidebarOpen ? "justify-start w-full" : "justify-center w-[45px]"}
+                      ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-100 text-gray-700"}
+                    `}
                   >
                     <span className="text-xl">{icon}</span>
                     {sidebarOpen && <span>{label}</span>}

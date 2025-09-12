@@ -1,15 +1,28 @@
 import type { NavItem } from "../types/type";
-import { MdDashboard, MdProductionQuantityLimits } from "react-icons/md";
-import { TiShoppingCart } from "react-icons/ti";
-import { FaRegUser } from "react-icons/fa6";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import PersonIcon from "@mui/icons-material/Person";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import {
+  Settings as SettingsIcon,
+  Analytics as AnalyticsIcon,
+  Inventory as InventoryIcon,
+} from "@mui/icons-material";
 
 export const navItems: NavItem[] = [
-  { path: "/", label: "Dashboard", icon: <MdDashboard /> },
+  { path: "/admin", label: "Dashboard", icon: <DashboardIcon /> },
+  { path: "/admin/products", label: "Products", icon: <Inventory2Icon /> },
   {
-    path: "/products",
-    label: "Products",
-    icon: <MdProductionQuantityLimits />,
+    path: "/admin/orders",
+    label: "Orders",
+    icon: <ShoppingCartCheckoutIcon />,
   },
-  { path: "/orders", label: "Orders", icon: <TiShoppingCart /> },
-  { path: "/profile", label: "Profile", icon: <FaRegUser /> },
+  { path: "/admin/profile", label: "Profile", icon: <PersonIcon /> },
+];
+export const menuItems = [
+  { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
+  { text: "Profil", icon: <PersonIcon />, path: "/profile" },
+  { text: "Mahsulotlar", icon: <InventoryIcon />, path: "/products" },
+  { text: "Analitika", icon: <AnalyticsIcon />, path: "/analytics" },
+  { text: "Sozlamalar", icon: <SettingsIcon />, path: "/settings" },
 ];

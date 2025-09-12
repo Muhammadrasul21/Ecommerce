@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { SuspenseContainer } from "../utils";
 
 const Admin = lazy(() => import("../pages/admin/Admin"));
@@ -7,67 +7,11 @@ const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const Products = lazy(() => import("../pages/admin/Products"));
 const Profile = lazy(() => import("../pages/admin/Profile"));
 const Orders = lazy(() => import("../pages/admin/Orders"));
+const OrdersNew = lazy(() => import("../components/OrdersNew"));
 
 const Routermain = () => {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <SuspenseContainer>
-            <Admin />
-          </SuspenseContainer>
-        }
-      >
-        <Route
-          index
-          element={
-            <SuspenseContainer>
-              <Dashboard />
-            </SuspenseContainer>
-          }
-        />
-        <Route
-          path="products"
-          element={
-            <SuspenseContainer>
-              <Products />
-            </SuspenseContainer>
-          }
-        />
-        <Route
-          path="create"
-          element={
-            <SuspenseContainer>
-              <Orders />
-            </SuspenseContainer>
-          }
-        />
-        <Route
-          path="buy"
-          element={
-            <SuspenseContainer>
-              <Profile />
-            </SuspenseContainer>
-          }
-        />
-        <Route
-          path="profile"
-          element={
-            <SuspenseContainer>
-              <Profile />
-            </SuspenseContainer>
-          }
-        />
-        <Route
-          path="orders"
-          element={
-            <SuspenseContainer>
-              <Orders />
-            </SuspenseContainer>
-          }
-        />
-      </Route>
       <Route
         path="/admin"
         element={
@@ -93,7 +37,7 @@ const Routermain = () => {
           }
         />
         <Route
-          path="create"
+          path="orders"
           element={
             <SuspenseContainer>
               <Orders />
@@ -101,10 +45,10 @@ const Routermain = () => {
           }
         />
         <Route
-          path="buy"
+          path="ordersnew"
           element={
             <SuspenseContainer>
-              <Profile />
+              <OrdersNew />
             </SuspenseContainer>
           }
         />
@@ -116,15 +60,11 @@ const Routermain = () => {
             </SuspenseContainer>
           }
         />
-        <Route
-          path="orders"
-          element={
-            <SuspenseContainer>
-              <Orders />
-            </SuspenseContainer>
-          }
-        />
       </Route>
+
+      {/* Default redirect */}
+      <Route path="/" element={<Navigate to="/admin" replace />} />
+      <Route path="*" element={<Navigate to="/admin" replace />} />
     </Routes>
   );
 };
