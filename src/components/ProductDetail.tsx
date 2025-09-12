@@ -191,40 +191,40 @@ const ProductDetail = () => {
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 Stock
               </Typography>
-              <Chip
-                label={`${product.stock} units available`}
-                color={
-                  product.stock > 10
-                    ? "success"
-                    : product.stock > 0
-                      ? "warning"
-                      : "error"
-                }
-                size="large"
-              />
+               <Chip
+                 label={`${product.stock} units available`}
+                 color={
+                   product.stock > 10
+                     ? "success"
+                     : product.stock > 0
+                       ? "warning"
+                       : "error"
+                 }
+                 size="medium"
+               />
             </Box>
 
             <Box mb={2}>
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 Category
               </Typography>
-              <Chip
-                label={product.category}
-                color="primary"
-                variant="outlined"
-                size="large"
-              />
+               <Chip
+                 label={product.category}
+                 color="primary"
+                 variant="outlined"
+                 size="medium"
+               />
             </Box>
 
             <Box mb={2}>
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 Status
               </Typography>
-              <Chip
-                label={product.isActive ? "Active" : "Inactive"}
-                color={product.isActive ? "success" : "error"}
-                size="large"
-              />
+               <Chip
+                 label={product.isActive ? "Active" : "Inactive"}
+                 color={product.isActive ? "success" : "error"}
+                 size="medium"
+               />
             </Box>
 
             <Box mb={2}>
