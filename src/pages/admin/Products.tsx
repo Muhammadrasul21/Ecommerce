@@ -8,7 +8,7 @@ import {
   CardMedia,
   CardContent,
   Chip,
-  Grid2 as Grid,
+  Grid,
   TextField,
   Fab,
   Pagination,
@@ -179,7 +179,7 @@ const Products = () => {
 
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {paginatedProducts.map((product) => (
-          <Grid xs={12} sm={12} md={6} lg={4} key={product.id}>
+          <Grid item xs={12} sm={12} md={6} lg={4} key={product.id}>
             <Card sx={{ width: 380, mx: "auto" }}>
               <CardMedia
                 component="img"
