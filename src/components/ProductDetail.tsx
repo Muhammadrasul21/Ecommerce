@@ -8,7 +8,7 @@ import {
   IconButton,
   CircularProgress,
   Alert,
-  Grid,
+  Grid2 as Grid,
   Paper,
   Divider,
   Dialog,
@@ -134,20 +134,20 @@ const ProductDetail = () => {
         <Typography variant="h4">Product Details</Typography>
       </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardMedia
-              component="img"
-              height="400"
-              image={noImage}
-              alt={product.name}
-              sx={{ objectFit: "cover" }}
-            />
-          </Card>
-        </Grid>
+       <Grid container spacing={3}>
+         <Grid xs={12} md={6}>
+           <Card>
+             <CardMedia
+               component="img"
+               height="400"
+               image={noImage}
+               alt={product.name}
+               sx={{ objectFit: "cover" }}
+             />
+           </Card>
+         </Grid>
 
-        <Grid item xs={12} md={6}>
+         <Grid xs={12} md={6}>
           <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
             <Box
               display="flex"

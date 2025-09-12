@@ -8,7 +8,7 @@ import {
   CardMedia,
   CardContent,
   Chip,
-  Grid,
+  Grid2 as Grid,
   TextField,
   Fab,
   Pagination,
@@ -29,7 +29,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -179,7 +179,7 @@ const Products = () => {
 
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {paginatedProducts.map((product) => (
-          <Grid item xs={12} sm={12} md={6} lg={4} key={product.id}>
+          <Grid xs={12} sm={12} md={6} lg={4} key={product.id}>
             <Card sx={{ width: 380, mx: "auto" }}>
               <CardMedia
                 component="img"
