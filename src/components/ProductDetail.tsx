@@ -8,7 +8,7 @@ import {
   IconButton,
   CircularProgress,
   Alert,
-  Grid2 as Grid,
+  Grid,
   Paper,
   Divider,
   Dialog,
@@ -135,7 +135,7 @@ const ProductDetail = () => {
       </Box>
 
        <Grid container spacing={3}>
-         <Grid xs={12} md={6}>
+         <Grid item xs={12} md={6}>
            <Card>
              <CardMedia
                component="img"
@@ -147,7 +147,7 @@ const ProductDetail = () => {
            </Card>
          </Grid>
 
-         <Grid xs={12} md={6}>
+         <Grid item xs={12} md={6}>
           <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
             <Box
               display="flex"
