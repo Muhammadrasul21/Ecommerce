@@ -8,7 +8,6 @@ import {
   IconButton,
   CircularProgress,
   Alert,
-  Grid,
   Paper,
   Divider,
   Dialog,
@@ -19,6 +18,7 @@ import {
   Button,
   Snackbar,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { ArrowBack, Edit, Delete } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

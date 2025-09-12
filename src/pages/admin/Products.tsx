@@ -8,7 +8,6 @@ import {
   CardMedia,
   CardContent,
   Chip,
-  Grid,
   TextField,
   Fab,
   Pagination,
@@ -21,6 +20,7 @@ import {
   Button,
   Snackbar,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../services/productService";
 import type { Product } from "../../types/type";
