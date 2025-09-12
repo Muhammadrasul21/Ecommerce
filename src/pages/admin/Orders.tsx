@@ -54,7 +54,7 @@ export default function Orders() {
   React.useEffect(() => {
     axios
       .get(
-        `https://api-e-commerce.tenzorsoft.uz/orders?page=${page}&size=${rowsPerPage}&sortBy=orderDate&sortDir=desc`
+        `https://api-e-commerce.tenzorsoft.uz/orders?page=${page}&size=${rowsPerPage}&sortBy=orderDate&sortDir=desc`,
       )
       .then((res) => {
         setOrders(res.data.data.content);

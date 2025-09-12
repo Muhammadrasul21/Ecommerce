@@ -8,11 +8,10 @@ const Admin = () => {
   const location = useLocation();
 
   return (
-    <div className="flex h-screen">
+    <div className="h-screen flex">
       <aside
-        className={`overflow-auto px-2 h-screen sticky top-0 left-0 border-r border-blue-500 rounded-xl py-6 flex flex-col transition-all duration-300 ${
-          sidebarOpen ? "w-60" : "w-16"
-        }`}
+        className={`fixed top-0 left-0 h-full overflow-auto px-2 border-r border-blue-500 rounded-r-xl py-6 flex flex-col transition-all duration-300
+          ${sidebarOpen ? "w-60" : "w-16"}`}
       >
         <div
           className={`flex ${
@@ -44,8 +43,16 @@ const Admin = () => {
                   <Link
                     to={path}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300
-                      ${sidebarOpen ? "justify-start w-full" : "justify-center w-[45px]"}
-                      ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-100 text-gray-700"}
+                      ${
+                        sidebarOpen
+                          ? "justify-start w-full"
+                          : "justify-center w-[45px]"
+                      }
+                      ${
+                        isActive
+                          ? "bg-blue-500 text-white"
+                          : "hover:bg-blue-100 text-gray-700"
+                      }
                     `}
                   >
                     <span className="text-xl">{icon}</span>
@@ -58,7 +65,10 @@ const Admin = () => {
         </nav>
       </aside>
 
-      <div className="flex-1 min-h-screen p-4 bg-gray-50">
+      <div
+        className={`flex-1 min-h-screen p-4 bg-gray-50 transition-all duration-300 
+          ${sidebarOpen ? "ml-60" : "ml-16"}`}
+      >
         <Outlet />
       </div>
     </div>

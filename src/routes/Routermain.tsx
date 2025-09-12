@@ -8,6 +8,9 @@ const Products = lazy(() => import("../pages/admin/Products"));
 const Profile = lazy(() => import("../pages/admin/Profile"));
 const Orders = lazy(() => import("../pages/admin/Orders"));
 const OrdersNew = lazy(() => import("../components/OrdersNew"));
+const AddProduct = lazy(() => import("../components/AddProduct"));
+const EditProduct = lazy(() => import("../components/EditProduct"));
+const ProductDetail = lazy(() => import("../components/ProductDetail"));
 
 const Routermain = () => {
   return (
@@ -33,6 +36,30 @@ const Routermain = () => {
           element={
             <SuspenseContainer>
               <Products />
+            </SuspenseContainer>
+          }
+        />
+        <Route
+          path="addproducts"
+          element={
+            <SuspenseContainer>
+              <AddProduct />
+            </SuspenseContainer>
+          }
+        />
+        <Route
+          path="editproduct/:id"
+          element={
+            <SuspenseContainer>
+              <EditProduct />
+            </SuspenseContainer>
+          }
+        />
+        <Route
+          path="productdetail/:id"
+          element={
+            <SuspenseContainer>
+              <ProductDetail />
             </SuspenseContainer>
           }
         />

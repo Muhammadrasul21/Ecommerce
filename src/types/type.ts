@@ -54,3 +54,8 @@ export interface ProductsResponse {
   last: boolean;
   numberOfElements: number;
 }
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  data: ProductsResponse;
+}
