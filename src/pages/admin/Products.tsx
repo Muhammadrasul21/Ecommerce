@@ -1,10 +1,8 @@
-import React from "react";
 import {
   Box,
   Typography,
   CircularProgress,
   Alert,
-  Avatar,
   Card,
   CardHeader,
   CardMedia,
@@ -14,7 +12,6 @@ import {
   Chip,
   Grid,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import { useQuery } from "@tanstack/react-query";
@@ -67,9 +64,9 @@ const Products = () => {
         Total Products: {productsData?.totalElements || 0}
       </Typography>
 
-      <Grid container spacing={3} mt={2}>
+      <Grid container spacing={3} sx={{ mt: 2 }}>
         {products.map((product) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
             <Card sx={{ width: 250, mx: "auto" }}>
               <CardMedia
                 component="img"
