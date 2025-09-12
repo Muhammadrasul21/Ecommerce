@@ -20,7 +20,6 @@ import {
   Button,
   Snackbar,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../services/productService";
 import type { Product } from "../../types/type";
@@ -177,9 +176,19 @@ const Products = () => {
         </Link>
       </Box>
 
-      <Grid container spacing={3} sx={{ mt: 2 }}>
+      <Box sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: { 
+          xs: '1fr', 
+          sm: '1fr', 
+          md: 'repeat(2, 1fr)', 
+          lg: 'repeat(3, 1fr)' 
+        }, 
+        gap: 3, 
+        mt: 2 
+      }}>
         {paginatedProducts.map((product) => (
-          <Grid item xs={12} sm={12} md={6} lg={4} key={product.id}>
+          <Box key={product.id}>
             <Card sx={{ width: 380, mx: "auto" }}>
               <CardMedia
                 component="img"
@@ -257,9 +266,9 @@ const Products = () => {
                 </Box>
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {filteredProducts.length > rowsPerPage && (
         <Box display="flex" justifyContent="center" mt={4}>

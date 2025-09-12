@@ -18,7 +18,6 @@ import {
   Button,
   Snackbar,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import { ArrowBack, Edit, Delete } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -134,8 +133,8 @@ const ProductDetail = () => {
         <Typography variant="h4">Product Details</Typography>
       </Box>
 
-       <Grid container spacing={3}>
-         <Grid item xs={12} md={6}>
+       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
+         <Box sx={{ flex: 1 }}>
            <Card>
              <CardMedia
                component="img"
@@ -145,9 +144,9 @@ const ProductDetail = () => {
                sx={{ objectFit: "cover" }}
              />
            </Card>
-         </Grid>
+         </Box>
 
-         <Grid item xs={12} md={6}>
+         <Box sx={{ flex: 1 }}>
           <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
             <Box
               display="flex"
@@ -275,9 +274,9 @@ const ProductDetail = () => {
                 </Typography>
               </Box>
             )}
-          </Paper>
-        </Grid>
-      </Grid>
+           </Paper>
+         </Box>
+       </Box>
 
       <Dialog
         open={deleteDialogOpen}
