@@ -11,7 +11,6 @@ import {
   Avatar,
   IconButton,
   Divider,
-  Chip,
   TextField,
   Alert,
   Dialog,
@@ -23,7 +22,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Grid,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -284,44 +282,38 @@ const Cart = () => {
         </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Payment Method</InputLabel>
-                  <Select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    label="Payment Method"
-                  >
-                    <MenuItem value="credit">Credit Card</MenuItem>
-                    <MenuItem value="debit">Debit Card</MenuItem>
-                    <MenuItem value="paypal">PayPal</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <FormControl fullWidth>
+                <InputLabel>Payment Method</InputLabel>
+                <Select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  label="Payment Method"
+                >
+                  <MenuItem value="credit">Credit Card</MenuItem>
+                  <MenuItem value="debit">Debit Card</MenuItem>
+                  <MenuItem value="paypal">PayPal</MenuItem>
+                </Select>
+              </FormControl>
               
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Cardholder Name"
-                  value={cardholderName}
-                  onChange={(e) => setCardholderName(e.target.value)}
-                  placeholder="John Doe"
-                />
-              </Grid>
+              <TextField
+                fullWidth
+                label="Cardholder Name"
+                value={cardholderName}
+                onChange={(e) => setCardholderName(e.target.value)}
+                placeholder="John Doe"
+              />
               
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Card Number"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  placeholder="1234 5678 9012 3456"
-                  inputProps={{ maxLength: 19 }}
-                />
-              </Grid>
+              <TextField
+                fullWidth
+                label="Card Number"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+                placeholder="1234 5678 9012 3456"
+                inputProps={{ maxLength: 19 }}
+              />
               
-              <Grid item xs={6}>
+              <Box sx={{ display: 'flex', gap: 2 }}>
                 <TextField
                   fullWidth
                   label="Expiry Date"
@@ -330,9 +322,7 @@ const Cart = () => {
                   placeholder="MM/YY"
                   inputProps={{ maxLength: 5 }}
                 />
-              </Grid>
-              
-              <Grid item xs={6}>
+                
                 <TextField
                   fullWidth
                   label="CVV"
@@ -341,9 +331,9 @@ const Cart = () => {
                   placeholder="123"
                   inputProps={{ maxLength: 4 }}
                 />
-              </Grid>
+              </Box>
               
-              <Grid item xs={12}>
+              <Box>
                 <Paper elevation={1} sx={{ p: 2, backgroundColor: 'grey.50' }}>
                   <Typography variant="h6" gutterBottom>
                     Order Summary
@@ -368,8 +358,8 @@ const Cart = () => {
                     </Typography>
                   </Box>
                 </Paper>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>

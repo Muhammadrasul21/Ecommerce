@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
   Paper,
   Button,
-  Grid,
   Divider,
   Chip,
   Card,
@@ -17,7 +16,6 @@ import {
   Person as PersonIcon,
   ShoppingCart as ShoppingCartIcon,
   Payment as PaymentIcon,
-  LocalShipping as ShippingIcon,
 } from '@mui/icons-material';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -125,25 +123,25 @@ const OrderDetail = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', gap: 3, flexDirection: { xs: 'column', lg: 'row' } }}>
         {/* Order Summary */}
-        <Grid item xs={12} md={8}>
+        <Box sx={{ flex: 1 }}>
           <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
             <Box display="flex" alignItems="center" mb={2}>
               <ShoppingCartIcon color="primary" sx={{ mr: 1 }} />
               <Typography variant="h6">Order Summary</Typography>
             </Box>
             
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
+              <Box>
                 <Typography variant="body2" color="text.secondary">
                   Order ID
                 </Typography>
                 <Typography variant="body1" fontWeight="bold">
                   #{order.id}
                 </Typography>
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box>
                 <Typography variant="body2" color="text.secondary">
                   Order Date
                 </Typography>
@@ -156,8 +154,8 @@ const OrderDetail = () => {
                     minute: '2-digit'
                   })}
                 </Typography>
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box>
                 <Typography variant="body2" color="text.secondary">
                   Status
                 </Typography>
@@ -166,16 +164,16 @@ const OrderDetail = () => {
                   color={getStatusColor(order.status) as any}
                   size="small"
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </Box>
+              <Box>
                 <Typography variant="body2" color="text.secondary">
                   Total Amount
                 </Typography>
                 <Typography variant="h6" color="primary" fontWeight="bold">
                   UZS {order.totalAmount.toLocaleString()}
                 </Typography>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Paper>
 
           {/* Order Items */}
@@ -184,53 +182,51 @@ const OrderDetail = () => {
               Order Items
             </Typography>
             {order.items && order.items.length > 0 ? (
-              order.items.map((item, index) => (
+              order.items.map((item) => (
                 <Card key={item.id} sx={{ mb: 2 }}>
                   <CardContent>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid item xs={2}>
-                        <Box
-                          component="img"
-                          src={item.imageUrl || '/noimage.png'}
-                          alt={item.name}
-                          sx={{
-                            width: 60,
-                            height: 60,
-                            objectFit: 'cover',
-                            borderRadius: 1,
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <Box
+                        component="img"
+                        src={item.imageUrl || '/noimage.png'}
+                        alt={item.name}
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          objectFit: 'cover',
+                          borderRadius: 1,
+                        }}
+                      />
+                      <Box sx={{ flex: 1, minWidth: 200 }}>
                         <Typography variant="subtitle1" fontWeight="bold">
                           {item.name}
                         </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
+                      </Box>
+                      <Box sx={{ minWidth: 80, textAlign: 'center' }}>
                         <Typography variant="body2" color="text.secondary">
                           Quantity
                         </Typography>
                         <Typography variant="body1" fontWeight="bold">
                           {item.quantity}
                         </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
+                      </Box>
+                      <Box sx={{ minWidth: 100, textAlign: 'center' }}>
                         <Typography variant="body2" color="text.secondary">
                           Unit Price
                         </Typography>
                         <Typography variant="body1" fontWeight="bold">
                           UZS {item.price.toLocaleString()}
                         </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
+                      </Box>
+                      <Box sx={{ minWidth: 100, textAlign: 'center' }}>
                         <Typography variant="body2" color="text.secondary">
                           Total
                         </Typography>
                         <Typography variant="h6" color="primary" fontWeight="bold">
                           UZS {(item.price * item.quantity).toLocaleString()}
                         </Typography>
-                      </Grid>
-                    </Grid>
+                      </Box>
+                    </Box>
                   </CardContent>
                 </Card>
               ))
@@ -240,10 +236,10 @@ const OrderDetail = () => {
               </Typography>
             )}
           </Paper>
-        </Grid>
+        </Box>
 
         {/* Customer & Payment Info */}
-        <Grid item xs={12} md={4}>
+        <Box sx={{ width: { xs: '100%', lg: 350 } }}>
           {/* Customer Information */}
           <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
             <Box display="flex" alignItems="center" mb={2}>
@@ -330,8 +326,8 @@ const OrderDetail = () => {
               />
             </Box>
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };
