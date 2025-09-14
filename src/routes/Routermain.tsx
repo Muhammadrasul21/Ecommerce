@@ -5,8 +5,10 @@ import { SuspenseContainer } from "../utils";
 const Admin = lazy(() => import("../pages/admin/Admin"));
 const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const Products = lazy(() => import("../pages/admin/Products"));
+const Cart = lazy(() => import("../pages/admin/Cart"));
 const Profile = lazy(() => import("../pages/admin/Profile"));
 const Orders = lazy(() => import("../pages/admin/Orders"));
+const OrderDetail = lazy(() => import("../pages/admin/OrderDetail"));
 const OrdersNew = lazy(() => import("../components/OrdersNew"));
 const AddProduct = lazy(() => import("../components/AddProduct"));
 const EditProduct = lazy(() => import("../components/EditProduct"));
@@ -40,6 +42,14 @@ const Routermain = () => {
           }
         />
         <Route
+          path="cart"
+          element={
+            <SuspenseContainer>
+              <Cart />
+            </SuspenseContainer>
+          }
+        />
+        <Route
           path="addproducts"
           element={
             <SuspenseContainer>
@@ -68,6 +78,14 @@ const Routermain = () => {
           element={
             <SuspenseContainer>
               <Orders />
+            </SuspenseContainer>
+          }
+        />
+        <Route
+          path="order-detail/:id"
+          element={
+            <SuspenseContainer>
+              <OrderDetail />
             </SuspenseContainer>
           }
         />

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { navItems } from "../../constants";
+import { useAppSelector } from "../../store/hooks";
 
 const Admin = () => {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
   const location = useLocation();
+  const { itemCount } = useAppSelector((state) => state.cart);
 
   return (
     <div className="h-screen flex">
@@ -38,6 +40,8 @@ const Admin = () => {
           <ul className="space-y-2">
             {navItems.map(({ path, label, icon }) => {
               const isActive = location.pathname === path;
+              const isCartItem = path === "/admin/cart";
+              
               return (
                 <li key={path}>
                   <Link
@@ -57,6 +61,11 @@ const Admin = () => {
                   >
                     <span className="text-xl">{icon}</span>
                     {sidebarOpen && <span>{label}</span>}
+                    {sidebarOpen && isCartItem && itemCount > 0 && (
+                      <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                        {itemCount}
+                      </span>
+                    )}
                   </Link>
                 </li>
               );

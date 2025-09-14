@@ -24,16 +24,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getProducts, deleteProduct } from "../services/productService";
 import type { Product } from "../types/type";
 import noImage from "../assets/noimage.png";
+import { useAppDispatch } from "../store/hooks";
+import { addToCart } from "../store/slices/cartSlice";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
+  const [addToCartToastOpen, setAddToCartToastOpen] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -95,6 +100,23 @@ const ProductDetail = () => {
 
   const handleCloseToast = () => {
     setToastOpen(false);
+  };
+
+  const handleAddToCart = () => {
+    if (product) {
+      setIsAddingToCart(true);
+      dispatch(addToCart(product));
+      setAddToCartToastOpen(true);
+      
+      // Re-enable the button after 1 second
+      setTimeout(() => {
+        setIsAddingToCart(false);
+      }, 1000);
+    }
+  };
+
+  const handleCloseAddToCartToast = () => {
+    setAddToCartToastOpen(false);
   };
 
   if (isLoading) {
@@ -274,6 +296,27 @@ const ProductDetail = () => {
                 </Typography>
               </Box>
             )}
+
+            <Box sx={{ mt: 3 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth
+                onClick={handleAddToCart}
+                disabled={product.stock === 0 || isAddingToCart}
+                sx={{
+                  py: 2,
+                  fontSize: "1.1rem",
+                  backgroundColor: product.stock === 0 || isAddingToCart ? "grey.400" : "primary.main",
+                  "&:hover": {
+                    backgroundColor: product.stock === 0 || isAddingToCart ? "grey.400" : "primary.dark",
+                  },
+                }}
+              >
+                {product.stock === 0 ? "Out of Stock" : isAddingToCart ? "Added!" : "Add to Cart"}
+              </Button>
+            </Box>
            </Paper>
          </Box>
        </Box>
@@ -319,6 +362,21 @@ const ProductDetail = () => {
           sx={{ width: "100%" }}
         >
           Product successfully deleted! 🗑️
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={addToCartToastOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseAddToCartToast}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseAddToCartToast}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          "{product?.name}" added to cart! Click Cart in the sidebar to view. 🛒
         </Alert>
       </Snackbar>
     </Box>

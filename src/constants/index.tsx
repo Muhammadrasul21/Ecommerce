@@ -1,6 +1,7 @@
 import type { NavItem } from "../types/type";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import {
@@ -12,6 +13,11 @@ import {
 export const navItems: NavItem[] = [
   { path: "/admin", label: "Dashboard", icon: <DashboardIcon /> },
   { path: "/admin/products", label: "Products", icon: <Inventory2Icon /> },
+  {
+    path: "/admin/cart",
+    label: "Cart",
+    icon: <ShoppingCartIcon />,
+  },
   {
     path: "/admin/orders",
     label: "Orders",

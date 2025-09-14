@@ -33,14 +33,22 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProduct } from "../../services/productService";
+import { useAppDispatch } from "../../store/hooks";
+import { addToCart } from "../../store/slices/cartSlice";
 
 const Products = () => {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [toastOpen, setToastOpen] = useState(false);
+  const [addToCartToastOpen, setAddToCartToastOpen] = useState(false);
+  const [addedProductName, setAddedProductName] = useState("");
+  const [disabledButtons, setDisabledButtons] = useState<Set<number>>(
+    new Set()
+  );
   const rowsPerPage = 12;
 
   const {
@@ -89,12 +97,12 @@ const Products = () => {
   const products: Product[] = productsData?.content || [];
 
   const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(search.toLowerCase()),
+    product.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const paginatedProducts = filteredProducts.slice(
     (page - 1) * rowsPerPage,
-    page * rowsPerPage,
+    page * rowsPerPage
   );
 
   const handleDeleteClick = (product: Product) => {
@@ -115,6 +123,26 @@ const Products = () => {
 
   const handleCloseToast = () => {
     setToastOpen(false);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    setDisabledButtons((prev) => new Set(prev).add(product.id));
+
+    dispatch(addToCart(product));
+    setAddedProductName(product.name);
+    setAddToCartToastOpen(true);
+
+    setTimeout(() => {
+      setDisabledButtons((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(product.id);
+        return newSet;
+      });
+    }, 1000);
+  };
+
+  const handleCloseAddToCartToast = () => {
+    setAddToCartToastOpen(false);
   };
 
   return (
@@ -176,17 +204,19 @@ const Products = () => {
         </Link>
       </Box>
 
-      <Box sx={{ 
-        display: 'grid', 
-        gridTemplateColumns: { 
-          xs: '1fr', 
-          sm: '1fr', 
-          md: 'repeat(2, 1fr)', 
-          lg: 'repeat(3, 1fr)' 
-        }, 
-        gap: 3, 
-        mt: 2 
-      }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          },
+          gap: 3,
+          mt: 2,
+        }}
+      >
         {paginatedProducts.map((product) => (
           <Box key={product.id}>
             <Card sx={{ width: 380, mx: "auto" }}>
@@ -216,8 +246,8 @@ const Products = () => {
                       product.stock > 10
                         ? "success"
                         : product.stock > 0
-                          ? "warning"
-                          : "error"
+                        ? "warning"
+                        : "error"
                     }
                     size="small"
                     sx={{ mt: 1 }}
@@ -263,6 +293,36 @@ const Products = () => {
                   >
                     <DeleteIcon />
                   </IconButton>
+                </Box>
+
+                <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => handleAddToCart(product)}
+                    disabled={
+                      product.stock === 0 || disabledButtons.has(product.id)
+                    }
+                    sx={{
+                      backgroundColor:
+                        product.stock === 0 || disabledButtons.has(product.id)
+                          ? "grey.400"
+                          : "primary.main",
+                      "&:hover": {
+                        backgroundColor:
+                          product.stock === 0 || disabledButtons.has(product.id)
+                            ? "grey.400"
+                            : "primary.dark",
+                      },
+                    }}
+                  >
+                    {product.stock === 0
+                      ? "Out of Stock"
+                      : disabledButtons.has(product.id)
+                      ? "Added!"
+                      : "Add to Cart"}
+                  </Button>
                 </Box>
               </CardContent>
             </Card>
@@ -330,6 +390,21 @@ const Products = () => {
           sx={{ width: "100%" }}
         >
           Product successfully deleted! 🗑️
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={addToCartToastOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseAddToCartToast}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseAddToCartToast}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          "{addedProductName}" added to cart!
         </Alert>
       </Snackbar>
     </Box>
