@@ -40,7 +40,9 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
   const [newStatus, setNewStatus] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, order: any) => {
     setAnchorEl(event.currentTarget);
@@ -71,23 +73,19 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
   };
 
   const handleStatusUpdate = () => {
-    // Here you would typically make an API call to update the order status
     console.log(`Updating order ${selectedOrder?.id} status to ${newStatus}`);
     setSnackbarMessage(`Order status updated to ${newStatus}`);
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
     setStatusDialogOpen(false);
-    // You might want to refresh the orders list here
   };
 
   const handleConfirmCancel = () => {
-    // Here you would typically make an API call to cancel/delete the order
     console.log(`Cancelling order ${selectedOrder?.id}`);
     setSnackbarMessage(`Order ${selectedOrder?.id} has been cancelled`);
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
     setCancelDialogOpen(false);
-    // You might want to refresh the orders list here
   };
 
   const handleCloseSnackbar = () => {
@@ -128,12 +126,14 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell component="th" scope="row">
-                {order.id}
+              <TableCell component="th" scope="row" sx={{color:"#2B7FFF"}}>
+                #{order.id}
               </TableCell>
               <TableCell align="center">{order.customerName}</TableCell>
-              <TableCell align="center">{order.customerEmail}</TableCell>
-              <TableCell align="center">UZS {order.totalAmount}</TableCell>
+              <TableCell align="center" sx={{opacity:"80%"}}>{order.customerEmail}</TableCell>
+              <TableCell align="center" sx={{ color: "green" }}>
+                UZS {order.totalAmount}
+              </TableCell>
               <TableCell align="center">{order.status}</TableCell>
               <TableCell align="center">
                 {order.orderDate.slice(0, 10)}
@@ -152,7 +152,6 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
         </TableBody>
       </Table>
 
-      {/* Actions Menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -186,7 +185,6 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
         </MenuItem>
       </Menu>
 
-      {/* Update Status Dialog */}
       <Dialog
         open={statusDialogOpen}
         onClose={() => setStatusDialogOpen(false)}
@@ -221,7 +219,6 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
         </DialogActions>
       </Dialog>
 
-      {/* Cancel Order Dialog */}
       <Dialog
         open={cancelDialogOpen}
         onClose={() => setCancelDialogOpen(false)}
@@ -231,18 +228,22 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
         <DialogTitle>Cancel Order</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to cancel order #{selectedOrder?.id}? This action cannot be undone.
+            Are you sure you want to cancel order #{selectedOrder?.id}? This
+            action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setCancelDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleConfirmCancel} variant="contained" color="error">
+          <Button
+            onClick={handleConfirmCancel}
+            variant="contained"
+            color="error"
+          >
             Cancel Order
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Success/Error Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}

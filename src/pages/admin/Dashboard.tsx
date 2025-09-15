@@ -1,28 +1,75 @@
-import { LineChart } from "@mui/x-charts/LineChart";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Card, CardContent, Typography, CircularProgress, Alert } from "@mui/material";
+
+type OrdersApiResponse = {
+  data: {
+    content: unknown[];
+    totalElements: number;
+  };
+};
+
+const fetchOrdersSummary = async (): Promise<number> => {
+  const response = await fetch(
+    "https://api-e-commerce.tenzorsoft.uz/orders?page=0&size=1&sortBy=orderDate&sortDir=desc",
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch orders summary: ${response.status}`);
+  }
+  const json: OrdersApiResponse = await response.json();
+  return json.data.totalElements ?? 0;
+};
 
 const Dashboard = () => {
+  const {
+    data: totalOrders,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({ queryKey: ["orders-summary"], queryFn: fetchOrdersSummary });
+
   return (
-    <div>
-      <p>Dashboard</p>
-      <LineChart
-        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-        series={[
-          {
-            data: [2, 5.5, 2, 8.5, 1.5, 5],
-            label: "Line A",
-          },
-          {
-            data: [1, 4, 3, 7, 2, 6],
-            label: "Line B",
-          },
-          {
-            data: [3, 2, 6, 4, 7, 8],
-            label: "Line C",
-          },
-        ]}
-        height={300}
-      />
-    </div>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>
+        Dashboard
+      </Typography>
+
+      {isLoading && (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+          <CircularProgress />
+        </Box>
+      )}
+
+      {isError && (
+        <Alert severity="error">{(error as Error)?.message || "Failed to load dashboard data"}</Alert>
+      )}
+
+      {!isLoading && !isError && (
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "1fr",
+              md: "repeat(3, 1fr)",
+            },
+            gap: 2,
+          }}
+        >
+          <Card sx={{ borderRadius: 3 }}>
+            <CardContent>
+              <Typography variant="overline" color="text.secondary">
+                Umumiy buyurtmalar
+              </Typography>
+              <Typography variant="h3" sx={{ mt: 1 }}>
+                {totalOrders}
+              </Typography>
+            </CardContent>
+          </Card>
+
+          {/* Optional: Add more stat cards here, like revenue or users */}
+        </Box>
+      )}
+    </Box>
   );
 };
 
