@@ -4,17 +4,17 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
 import OrderTable from "../../components/OrderTable";
-import type { TabPanelProps } from "../../types/type";
+import type { TabPanelProps, Order } from "../../types/type";
 import { Link } from "react-router-dom";
 import TablePagination from "@mui/material/TablePagination";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useAppSelector } from "../../store/hooks";
+import SearchBar from "../../components/SearchBar";
+import { getOrders } from "../../services/orderService";
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -40,26 +40,25 @@ function a11yProps(index: number) {
 
 export default function Orders() {
   const [value, setValue] = React.useState(0);
-  const [orders, setOrders] = React.useState<any[]>([]);
+  const [orders, setOrders] = React.useState<Order[]>([]);
   const [search, setSearch] = React.useState("");
   const [emailSearch, setEmailSearch] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [totalCount, setTotalCount] = React.useState(0);
+  const auth = useAppSelector((s) => s.auth);
+  const isAdmin = auth.user?.role === "admin";
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   React.useEffect(() => {
-    axios
-      .get(
-        `https://api-e-commerce.tenzorsoft.uz/orders?page=${page}&size=${rowsPerPage}&sortBy=orderDate&sortDir=desc`
-      )
-      .then((res) => {
-        setOrders(res.data.data.content);
-        setTotalCount(res.data.data.totalElements);
+    getOrders(page, rowsPerPage, "orderDate", "desc")
+      .then((data) => {
+        setOrders(data.content);
+        setTotalCount(data.totalElements);
       })
       .catch((err) => console.error("Xatolik:", err));
   }, [page, rowsPerPage]);
@@ -100,37 +99,11 @@ export default function Orders() {
               marginBottom: 2,
             }}
           >
-            <Box
-              sx={{
-                border: 1,
-                width: "700px",
-                height: "50px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderRadius: 3,
-                marginTop: 2,
-                paddingX: 1,
-              }}
-            >
-              <TextField
-                id="outlined-search"
-                placeholder="Search..."
-                variant="outlined"
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                sx={{
-                  flex: 1,
-                  "& fieldset": { border: "none" },
-                  "& .MuiOutlinedInput-root": {
-                    outline: "none",
-                    height: "50px",
-                  },
-                }}
-              />
-              <SearchIcon sx={{ color: "gray", ml: 1 }} />
-            </Box>
+            <SearchBar
+              placeholder="Search..."
+              value={search}
+              onChange={(v) => setSearch(v)}
+            />
 
             <FormControl sx={{ minWidth: 180, marginTop: 2 }} size="small">
               <InputLabel id="status-filter-label">Status</InputLabel>
@@ -149,11 +122,13 @@ export default function Orders() {
               </Select>
             </FormControl>
 
-            <Link to="/admin/ordersnew">
-              <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
-                <AddIcon />
-              </Fab>
-            </Link>
+            {isAdmin && (
+              <Link to="/admin/ordersnew">
+                <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
+                  <AddIcon />
+                </Fab>
+              </Link>
+            )}
           </Box>
           {filteredOrders.length > 0 ? (
             <>
@@ -186,37 +161,11 @@ export default function Orders() {
               marginBottom: 2,
             }}
           >
-            <Box
-              sx={{
-                border: 1,
-                width: "700px",
-                height: "50px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderRadius: 3,
-                marginTop: 2,
-                paddingX: 1,
-              }}
-            >
-              <TextField
-                id="outlined-email-search"
-                placeholder="Email bo‘yicha qidirish..."
-                variant="outlined"
-                type="search"
-                value={emailSearch}
-                onChange={(e) => setEmailSearch(e.target.value)}
-                sx={{
-                  flex: 1,
-                  "& fieldset": { border: "none" },
-                  "& .MuiOutlinedInput-root": {
-                    outline: "none",
-                    height: "50px",
-                  },
-                }}
-              />
-              <SearchIcon sx={{ color: "gray", ml: 1 }} />
-            </Box>
+            <SearchBar
+              placeholder="Email bo‘yicha qidirish..."
+              value={emailSearch}
+              onChange={(v) => setEmailSearch(v)}
+            />
 
             <FormControl sx={{ minWidth: 180, marginTop: 2 }} size="small">
               <InputLabel id="status-filter-label">Status</InputLabel>
@@ -235,11 +184,13 @@ export default function Orders() {
               </Select>
             </FormControl>
 
-            <Link to="/admin/ordersnew">
-              <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
-                <AddIcon />
-              </Fab>
-            </Link>
+            {isAdmin && (
+              <Link to="/admin/ordersnew">
+                <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
+                  <AddIcon />
+                </Fab>
+              </Link>
+            )}
           </Box>
 
           {emailFilteredOrders.length > 0 ? (

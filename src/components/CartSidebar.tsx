@@ -48,8 +48,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ open, onClose }) => {
   };
 
   const handleCheckout = () => {
-    // TODO: Implement checkout logic
-    alert('Checkout functionality will be implemented soon!');
+    alert('Checkout is not implemented yet');
   };
 
   return (

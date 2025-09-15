@@ -50,7 +50,6 @@ const OrderDetail = () => {
     const fetchOrderDetail = async () => {
       try {
         setLoading(true);
-        // Replace with your actual API endpoint
         const response = await axios.get(`https://api-e-commerce.tenzorsoft.uz/orders/${id}`);
         setOrder(response.data.data);
       } catch (err) {
@@ -124,7 +123,6 @@ const OrderDetail = () => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 3, flexDirection: { xs: 'column', lg: 'row' } }}>
-        {/* Order Summary */}
         <Box sx={{ flex: 1 }}>
           <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
             <Box display="flex" alignItems="center" mb={2}>
@@ -176,7 +174,6 @@ const OrderDetail = () => {
             </Box>
           </Paper>
 
-          {/* Order Items */}
           <Paper elevation={2} sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Order Items
@@ -238,9 +235,7 @@ const OrderDetail = () => {
           </Paper>
         </Box>
 
-        {/* Customer & Payment Info */}
         <Box sx={{ width: { xs: '100%', lg: 350 } }}>
-          {/* Customer Information */}
           <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
             <Box display="flex" alignItems="center" mb={2}>
               <PersonIcon color="primary" sx={{ mr: 1 }} />
@@ -288,7 +283,6 @@ const OrderDetail = () => {
             )}
           </Paper>
 
-          {/* Payment Information */}
           <Paper elevation={2} sx={{ p: 3 }}>
             <Box display="flex" alignItems="center" mb={2}>
               <PaymentIcon color="primary" sx={{ mr: 1 }} />

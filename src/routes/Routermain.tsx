@@ -1,6 +1,10 @@
 import { lazy } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { SuspenseContainer } from "../utils";
+import RequireAuth from "../components/RequireAuth";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Unauthorized from "../pages/Unauthorized";
 
 const Admin = lazy(() => import("../pages/admin/Admin"));
 const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
@@ -20,9 +24,11 @@ const Routermain = () => {
       <Route
         path="/admin"
         element={
-          <SuspenseContainer>
-            <Admin />
-          </SuspenseContainer>
+          <RequireAuth allowRoles={["admin", "user"]}>
+            <SuspenseContainer>
+              <Admin />
+            </SuspenseContainer>
+          </RequireAuth>
         }
       >
         <Route
@@ -52,17 +58,21 @@ const Routermain = () => {
         <Route
           path="addproducts"
           element={
-            <SuspenseContainer>
-              <AddProduct />
-            </SuspenseContainer>
+            <RequireAuth allowRoles={["admin"]}>
+              <SuspenseContainer>
+                <AddProduct />
+              </SuspenseContainer>
+            </RequireAuth>
           }
         />
         <Route
           path="editproduct/:id"
           element={
-            <SuspenseContainer>
-              <EditProduct />
-            </SuspenseContainer>
+            <RequireAuth allowRoles={["admin"]}>
+              <SuspenseContainer>
+                <EditProduct />
+              </SuspenseContainer>
+            </RequireAuth>
           }
         />
         <Route
@@ -92,9 +102,11 @@ const Routermain = () => {
         <Route
           path="ordersnew"
           element={
-            <SuspenseContainer>
-              <OrdersNew />
-            </SuspenseContainer>
+            <RequireAuth allowRoles={["admin"]}>
+              <SuspenseContainer>
+                <OrdersNew />
+              </SuspenseContainer>
+            </RequireAuth>
           }
         />
         <Route
@@ -107,6 +119,9 @@ const Routermain = () => {
         />
       </Route>
 
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
       {/* Default redirect */}
       <Route path="/" element={<Navigate to="/admin" replace />} />
       <Route path="*" element={<Navigate to="/admin" replace />} />

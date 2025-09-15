@@ -33,7 +33,7 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProduct } from "../../services/productService";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addToCart } from "../../store/slices/cartSlice";
 
 const Products = () => {
@@ -50,6 +50,8 @@ const Products = () => {
     new Set()
   );
   const rowsPerPage = 12;
+  const auth = useAppSelector((s) => s.auth);
+  const isAdmin = auth.user?.role === "admin";
 
   const {
     data: productsData,
@@ -197,11 +199,13 @@ const Products = () => {
           />
           <SearchIcon sx={{ color: "gray", ml: 1 }} />
         </Box>
-        <Link to="/admin/addproducts">
-          <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
-            <AddIcon />
-          </Fab>
-        </Link>
+        {isAdmin && (
+          <Link to="/admin/addproducts">
+            <Fab color="primary" aria-label="add" sx={{ mt: 2 }}>
+              <AddIcon />
+            </Fab>
+          </Link>
+        )}
       </Box>
 
       <Box
@@ -219,7 +223,19 @@ const Products = () => {
       >
         {paginatedProducts.map((product) => (
           <Box key={product.id}>
-            <Card sx={{ width: 380, mx: "auto" }}>
+            <Card
+              sx={{
+                width: 380,
+                mx: "auto",
+                borderRadius: 3,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                transition: "all 0.3s ease-in-out",
+                "&:hover": {
+                  transform: "translateY(-6px)",
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                },
+              }}
+            >
               <CardMedia
                 component="img"
                 height="180"
@@ -276,23 +292,27 @@ const Products = () => {
                       <VisibilityIcon />
                     </IconButton>
                   </Link>
-                  <Link to={`/admin/editproduct/${product.id}`}>
-                    <IconButton
-                      color="primary"
-                      size="small"
-                      title="Edit Product"
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Link>
-                  <IconButton
-                    color="error"
-                    size="small"
-                    title="Delete Product"
-                    onClick={() => handleDeleteClick(product)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  {isAdmin && (
+                    <>
+                      <Link to={`/admin/editproduct/${product.id}`}>
+                        <IconButton
+                          color="primary"
+                          size="small"
+                          title="Edit Product"
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Link>
+                      <IconButton
+                        color="error"
+                        size="small"
+                        title="Delete Product"
+                        onClick={() => handleDeleteClick(product)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+                  )}
                 </Box>
 
                 <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
@@ -389,7 +409,7 @@ const Products = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Product successfully deleted! 🗑️
+          Product successfully deleted!
         </Alert>
       </Snackbar>
 

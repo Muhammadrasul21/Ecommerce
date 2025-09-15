@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { ReactNode } from "react";
+import type { SuspenseContainerProps } from "../types/type";
 
 export const Loading = () => {
   return (
@@ -10,10 +10,6 @@ export const Loading = () => {
       </div>
     </div>
   );
-};
-
-type SuspenseContainerProps = {
-  children: ReactNode;
 };
 
 export const SuspenseContainer = ({ children }: SuspenseContainerProps) => {

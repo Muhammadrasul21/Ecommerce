@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { JSX, ReactNode } from "react";
 
 export type NavItem = {
   path: string;
@@ -59,3 +59,50 @@ export interface ApiResponse {
   message: string;
   data: ProductsResponse;
 }
+export type Props = {
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export type PropsAuth = {
+  children: JSX.Element;
+  allowRoles?: Array<"admin" | "user">;
+};
+export type Role = "admin" | "user";
+export type AuthUser = {
+  email: string;
+  role: Role;
+};
+export type AuthState = {
+  isAuthenticated: boolean;
+  token: string | null;
+  user: AuthUser | null;
+};
+export type StoredUser = {
+  email: string;
+  password: string;
+};
+export interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  imageUrl?: string;
+  quantity: number;
+}
+export interface CartState {
+  items: CartItem[];
+  total: number;
+  itemCount: number;
+}
+export type Mode = "light" | "dark";
+
+export type ColorModeContextValue = {
+  mode: Mode;
+  toggleColorMode: () => void;
+};
+
+export type SuspenseContainerProps = {
+  children: ReactNode;
+};

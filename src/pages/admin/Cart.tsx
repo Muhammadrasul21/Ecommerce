@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -22,7 +22,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Add as AddIcon,
   Remove as RemoveIcon,
@@ -30,21 +30,25 @@ import {
   ShoppingCart as ShoppingCartIcon,
   Payment as PaymentIcon,
   CreditCard as CreditCardIcon,
-} from '@mui/icons-material';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { removeFromCart, updateQuantity, clearCart } from '../../store/slices/cartSlice';
-import noImage from '../../assets/noimage.png';
+} from "@mui/icons-material";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import {
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+} from "../../store/slices/cartSlice";
+import noImage from "../../assets/noimage.png";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const { items, total, itemCount } = useAppSelector((state) => state.cart);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [cardholderName, setCardholderName] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [cardholderName, setCardholderName] = useState("");
 
   const handleRemoveItem = (id: number) => {
     dispatch(removeFromCart(id));
@@ -63,7 +67,6 @@ const Cart = () => {
   };
 
   const handlePaymentSubmit = () => {
-    // Simulate payment processing
     setTimeout(() => {
       setPaymentDialogOpen(false);
       setPaymentSuccess(true);
@@ -73,11 +76,11 @@ const Cart = () => {
 
   const handlePaymentClose = () => {
     setPaymentDialogOpen(false);
-    setPaymentMethod('');
-    setCardNumber('');
-    setExpiryDate('');
-    setCvv('');
-    setCardholderName('');
+    setPaymentMethod("");
+    setCardNumber("");
+    setExpiryDate("");
+    setCvv("");
+    setCardholderName("");
   };
 
   const handlePaymentSuccessClose = () => {
@@ -86,16 +89,14 @@ const Cart = () => {
 
   return (
     <Box p={3}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
         <ShoppingCartIcon color="primary" sx={{ fontSize: 32 }} />
-        <Typography variant="h4">
-          Shopping Cart ({itemCount} items)
-        </Typography>
+        <Typography variant="h4">Shopping Cart ({itemCount} items)</Typography>
       </Box>
 
       {items.length === 0 ? (
-        <Paper elevation={2} sx={{ p: 6, textAlign: 'center' }}>
-          <ShoppingCartIcon sx={{ fontSize: 80, color: 'grey.400', mb: 2 }} />
+        <Paper elevation={2} sx={{ p: 6, textAlign: "center" }}>
+          <ShoppingCartIcon sx={{ fontSize: 80, color: "grey.400", mb: 2 }} />
           <Typography variant="h5" color="text.secondary" gutterBottom>
             Your cart is empty
           </Typography>
@@ -112,14 +113,24 @@ const Cart = () => {
           </Button>
         </Paper>
       ) : (
-        <Box sx={{ display: 'flex', gap: 3, flexDirection: { xs: 'column', lg: 'row' } }}>
-          {/* Cart Items */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 3,
+            flexDirection: { xs: "column", lg: "row" },
+          }}
+        >
           <Box sx={{ flex: 1 }}>
             <Paper elevation={2} sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h6">
-                  Cart Items
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 3,
+                }}
+              >
+                <Typography variant="h6">Cart Items</Typography>
                 <Button
                   variant="outlined"
                   color="error"
@@ -143,8 +154,9 @@ const Cart = () => {
                           sx={{ width: 80, height: 80 }}
                         />
                       </ListItemAvatar>
-                      
+
                       <ListItemText
+                        sx={{ marginLeft: "10px" }}
                         primary={
                           <Typography variant="h6" gutterBottom>
                             {item.name}
@@ -152,7 +164,11 @@ const Cart = () => {
                         }
                         secondary={
                           <Box>
-                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              gutterBottom
+                            >
                               {item.category}
                             </Typography>
                             <Typography variant="h6" color="primary">
@@ -162,40 +178,60 @@ const Cart = () => {
                         }
                       />
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, ml: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          ml: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
                           <IconButton
                             size="small"
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity - 1)
+                            }
                             disabled={item.quantity <= 1}
                           >
                             <RemoveIcon />
                           </IconButton>
-                          
+
                           <TextField
                             size="small"
                             value={item.quantity}
                             onChange={(e) => {
                               const newQuantity = parseInt(e.target.value) || 1;
-                              handleUpdateQuantity(item.id, Math.max(1, newQuantity));
+                              handleUpdateQuantity(
+                                item.id,
+                                Math.max(1, newQuantity)
+                              );
                             }}
                             inputProps={{
                               min: 1,
-                              style: { textAlign: 'center', width: 60 }
+                              style: { textAlign: "center", width: 60 },
                             }}
                             variant="outlined"
                           />
-                          
+
                           <IconButton
                             size="small"
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity + 1)
+                            }
                           >
                             <AddIcon />
                           </IconButton>
                         </Box>
 
-                        <Box sx={{ minWidth: 120, textAlign: 'right' }}>
-                          <Typography variant="h6" color="primary" fontWeight="bold">
+                        <Box sx={{ minWidth: 120, textAlign: "right" }}>
+                          <Typography
+                            variant="h6"
+                            color="primary"
+                            fontWeight="bold"
+                          >
                             ${(item.price * item.quantity).toFixed(2)}
                           </Typography>
                         </Box>
@@ -215,28 +251,45 @@ const Cart = () => {
             </Paper>
           </Box>
 
-          {/* Order Summary */}
-          <Box sx={{ width: { xs: '100%', lg: 350 } }}>
-            <Paper elevation={2} sx={{ p: 3, position: 'sticky', top: 20 }}>
+          <Box sx={{ width: { xs: "100%", lg: 350 } }}>
+            <Paper elevation={2} sx={{ p: 3, position: "sticky", top: 20 }}>
               <Typography variant="h6" gutterBottom>
                 Order Summary
               </Typography>
-              
+
               <Box sx={{ my: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
                   <Typography variant="body2">Items ({itemCount}):</Typography>
                   <Typography variant="body2">${total.toFixed(2)}</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
                   <Typography variant="body2">Shipping:</Typography>
                   <Typography variant="body2">$0.00</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
                   <Typography variant="body2">Tax:</Typography>
                   <Typography variant="body2">$0.00</Typography>
                 </Box>
                 <Divider sx={{ my: 2 }} />
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Typography variant="h6">Total:</Typography>
                   <Typography variant="h6" color="primary" fontWeight="bold">
                     ${total.toFixed(2)}
@@ -254,12 +307,8 @@ const Cart = () => {
               >
                 Proceed to Checkout
               </Button>
-              
-              <Button
-                variant="outlined"
-                fullWidth
-                href="/admin/products"
-              >
+
+              <Button variant="outlined" fullWidth href="/admin/products">
                 Continue Shopping
               </Button>
             </Paper>
@@ -267,7 +316,6 @@ const Cart = () => {
         </Box>
       )}
 
-      {/* Payment Dialog */}
       <Dialog
         open={paymentDialogOpen}
         onClose={handlePaymentClose}
@@ -275,14 +323,14 @@ const Cart = () => {
         fullWidth
       >
         <DialogTitle>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <PaymentIcon color="primary" />
             <Typography variant="h6">Payment Information</Typography>
           </Box>
         </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
               <FormControl fullWidth>
                 <InputLabel>Payment Method</InputLabel>
                 <Select
@@ -295,7 +343,7 @@ const Cart = () => {
                   <MenuItem value="paypal">PayPal</MenuItem>
                 </Select>
               </FormControl>
-              
+
               <TextField
                 fullWidth
                 label="Cardholder Name"
@@ -303,7 +351,7 @@ const Cart = () => {
                 onChange={(e) => setCardholderName(e.target.value)}
                 placeholder="John Doe"
               />
-              
+
               <TextField
                 fullWidth
                 label="Card Number"
@@ -312,8 +360,8 @@ const Cart = () => {
                 placeholder="1234 5678 9012 3456"
                 inputProps={{ maxLength: 19 }}
               />
-              
-              <Box sx={{ display: 'flex', gap: 2 }}>
+
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <TextField
                   fullWidth
                   label="Expiry Date"
@@ -322,7 +370,7 @@ const Cart = () => {
                   placeholder="MM/YY"
                   inputProps={{ maxLength: 5 }}
                 />
-                
+
                 <TextField
                   fullWidth
                   label="CVV"
@@ -332,26 +380,48 @@ const Cart = () => {
                   inputProps={{ maxLength: 4 }}
                 />
               </Box>
-              
+
               <Box>
-                <Paper elevation={1} sx={{ p: 2, backgroundColor: 'grey.50' }}>
+                <Paper elevation={1} sx={{ p: 2, backgroundColor: "grey.50" }}>
                   <Typography variant="h6" gutterBottom>
                     Order Summary
                   </Typography>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography variant="body2">Items ({itemCount}):</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="body2">
+                      Items ({itemCount}):
+                    </Typography>
                     <Typography variant="body2">${total.toFixed(2)}</Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
                     <Typography variant="body2">Shipping:</Typography>
                     <Typography variant="body2">$0.00</Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
                     <Typography variant="body2">Tax:</Typography>
                     <Typography variant="body2">$0.00</Typography>
                   </Box>
                   <Divider sx={{ my: 1 }} />
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
                     <Typography variant="h6">Total:</Typography>
                     <Typography variant="h6" color="primary" fontWeight="bold">
                       ${total.toFixed(2)}
@@ -370,7 +440,13 @@ const Cart = () => {
             onClick={handlePaymentSubmit}
             variant="contained"
             color="primary"
-            disabled={!paymentMethod || !cardNumber || !expiryDate || !cvv || !cardholderName}
+            disabled={
+              !paymentMethod ||
+              !cardNumber ||
+              !expiryDate ||
+              !cvv ||
+              !cardholderName
+            }
             startIcon={<CreditCardIcon />}
           >
             Pay ${total.toFixed(2)}
@@ -378,7 +454,6 @@ const Cart = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Payment Success Snackbar */}
       <Snackbar
         open={paymentSuccess}
         autoHideDuration={5000}

@@ -30,9 +30,12 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import type { OrderTableProps } from "../types/type";
+import { useAppSelector } from "../store/hooks";
 
 const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
   const navigate = useNavigate();
+  const auth = useAppSelector((s) => s.auth);
+  const isAdmin = auth.user?.role === "admin";
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [statusDialogOpen, setStatusDialogOpen] = useState(false);
@@ -113,9 +116,11 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
             <TableCell sx={{ color: "white" }} align="center">
               Order Date
             </TableCell>
-            <TableCell sx={{ color: "white" }} align="center">
-              Actions
-            </TableCell>
+            {isAdmin && (
+              <TableCell sx={{ color: "white" }} align="center">
+                Actions
+              </TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -138,20 +143,23 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
               <TableCell align="center">
                 {order.orderDate.slice(0, 10)}
               </TableCell>
-              <TableCell align="center">
-                <IconButton
-                  onClick={(e) => handleMenuOpen(e, order)}
-                  size="small"
-                  sx={{ color: "#2B7FFF" }}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </TableCell>
+              {isAdmin && (
+                <TableCell align="center">
+                  <IconButton
+                    onClick={(e) => handleMenuOpen(e, order)}
+                    size="small"
+                    sx={{ color: "#2B7FFF" }}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
+      {isAdmin && (
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -184,6 +192,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
           <ListItemText>Cancel Order</ListItemText>
         </MenuItem>
       </Menu>
+      )}
 
       <Dialog
         open={statusDialogOpen}
